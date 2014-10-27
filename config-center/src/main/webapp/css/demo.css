@@ -1,0 +1,58 @@
+*{
+	font-size:12px;
+}
+body {
+    font-family:helvetica,tahoma,verdana,sans-serif;
+    padding:20px;
+    font-size:13px;
+    margin:0;
+}
+h2 {
+    font-size:18px;
+    font-weight:bold;
+    margin:0;
+    margin-bottom:15px;
+}
+
+.demo-info{
+	background:#FFFEE6;
+	color:#8F5700;
+	padding:12px;
+}
+.demo-tip{
+	width:16px;
+	height:16px;
+	margin-right:8px;
+	float:left;
+}
+.addSpan{
+	background:url('/icons/edit_add.png') no-repeat; height:22px; width: 33px;padding-left:20px;display:inline-block;cursor: pointer;margin-top:3px;
+}
+.delSpan{
+	background:url('/icons/edit_remove.png') no-repeat; height:22px; width: 33px;padding-left:20px;display:inline-block;cursor: pointer;
+}
+.editSpan{
+	background:url('/icons/pencil.png') no-repeat; height:22px; width: 33px;padding-left:20px;display:inline-block;cursor: pointer;
+}
+.stopSpan{
+	background: url("/icons/tabicons.png") no-repeat;
+    display: inline-block;
+    line-height: 18px;
+    width: 18px;
+    background-position: -40px -140px;
+}
+.beginSpan{
+	background: url("/icons/tabicons.png") no-repeat;
+    display: inline-block;
+    line-height: 18px;
+    width: 18px;
+    background-position: -236px -259px;
+}
+.editResourceSpan{
+	background:url('/icons/ok.png') no-repeat; height:22px; width: 70px;padding-left:20px;display:inline-block;cursor: pointer;
+}
+.dialog-content{
+	/**line-height: 109px**/
+}
+.editItem{background:url(/icons/tabicons.png) no-repeat; background-position: -240px -140px;height: 20px;width: 0px;padding-left: 20px;display: inline-block;
+}

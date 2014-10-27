@@ -1,0 +1,25 @@
+package com.moreopen.config.center.utils;
+
+import java.util.List;
+
+import com.moreopen.config.center.spi.ConfigItem;
+
+public class Tree {
+
+	public static String toJson(List<ConfigItem> items) {
+		StringBuffer strB=new StringBuffer();
+		strB.append("[");
+		for (ConfigItem item : items) {
+			strB.append("{\"id\":\"").append(item.getId()).append("\",");
+			strB.append("\"text\":\"").append(item.getText()).append("\",");
+			strB.append("\"attributes\":{\"value\":\"").append(item.getValue()).append("\"}");
+			if (item.isParent()) {//不是叶子菜单就保持关闭状态
+				strB.append(",\"state\":\"closed\"");//定义状态
+			}
+			strB.append("},");
+		}
+		strB.append("]");
+		return strB.toString().replaceAll(",]", "]");
+	}
+
+}
