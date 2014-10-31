@@ -5,6 +5,8 @@ public class Constants {
 	public static final long superAdminRoleId = 0;
 	
 	public static final String CONFIG_TOP_NODE = "/moconfig";
+	
+	public static final String CONFIG_TOP_NODE_TEXT = CONFIG_TOP_NODE.replaceFirst("/", "");
 
 	public static final String SLASH = "/";
 

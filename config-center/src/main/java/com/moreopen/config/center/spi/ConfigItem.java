@@ -2,28 +2,30 @@ package com.moreopen.config.center.spi;
 
 public class ConfigItem {
 	
-	private String id;
+	private String path;
 	
-	private String text;
+	private String key;
 	
 	private String value;
 	
 	private boolean parent;
+	
+	private String virtualPath;
 
-	public String getId() {
-		return id;
+	public String getPath() {
+		return path;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	public String getText() {
-		return text;
+	public String getKey() {
+		return key;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public boolean isParent() {
@@ -40,6 +42,14 @@ public class ConfigItem {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getVirtualPath() {
+		return virtualPath;
+	}
+
+	public void setVirtualPath(String virtualPath) {
+		this.virtualPath = virtualPath;
 	}
 
 }

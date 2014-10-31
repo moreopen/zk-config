@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
@@ -87,13 +89,25 @@ public class ZKDelegate implements InitializingBean {
 		this.zkServerPort = zkServerPort;
 	}
 
-	public void update(String nodeId, String value) throws Exception {
-		String existedValue = getValue(nodeId);
+	public void update(String nodePath, String value) throws Exception {
+		String existedValue = getValue(nodePath);
 		if (StringUtils.equals(value, existedValue)) {
-			logger.warn(String.format("node [%s]'s value is same as the para value [%s], not do save", nodeId, value));
+			logger.warn(String.format("node [%s]'s value is same as the para value [%s], not do save", nodePath, value));
 			return;
-		} 
-		zk.setData(nodeId, value == null ? null : value.getBytes(Constants.UTF8), -1);
+		}
+		zk.setData(nodePath, value == null ? null : value.getBytes(Constants.UTF8), -1);
+		if (logger.isInfoEnabled()) {
+			logger.info(String.format("updated node [%s], new value [%s], old value [%s]", nodePath, value, existedValue));
+		}
+	}
+
+	public void add(String pNodePath, String key, String value) throws Exception {
+		String path = pNodePath + Constants.SLASH + key;
+		zk.create(path, value == null ? null : value.getBytes(Constants.UTF8), Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+	}
+
+	public void remove(String nodePath) throws Exception {
+		zk.delete(nodePath, -1);
 	}
 
 }
