@@ -170,7 +170,7 @@ function del() {
 		alert("不能直接删除父节点!");
 		return false;
 	}
-	if (confirm("确认删除该配置节点 (" + node.text + ")吗 ????????? (此操作不能回复!!!!!!!)")) {
+	if (confirm("确认删除该配置节点 (" + node.text + ")吗 ????????? (此操作不能恢复!!!!!!!)")) {
 		$.ajax({
 			type:"POST",
 			url:"removeConfig.htm",
