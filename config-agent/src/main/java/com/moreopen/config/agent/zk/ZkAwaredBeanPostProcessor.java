@@ -1,6 +1,7 @@
 package com.moreopen.config.agent.zk;
 
 import java.lang.reflect.Method;
+import java.util.Properties;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,6 +25,7 @@ public class ZkAwaredBeanPostProcessor implements BeanPostProcessor, Initializin
 	public void afterPropertiesSet() throws Exception {
 		
 		Assert.notNull(zkBasedConfiguration);
+		zkBasedConfiguration.init(new Properties());
 	}
 
 	@Override

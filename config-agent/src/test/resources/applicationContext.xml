@@ -27,6 +27,14 @@
 		</property>
 	</bean>
 	
+	<!--bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:app.properties</value>
+			</list>
+		</property>
+	</bean-->
+	
 	<bean id="zkAwaredBeanPostProcessor" class="com.moreopen.config.agent.zk.ZkAwaredBeanPostProcessor">
 		<property name="zkBasedConfiguration" ref="zkBasedConfiguration"/>
 	</bean>

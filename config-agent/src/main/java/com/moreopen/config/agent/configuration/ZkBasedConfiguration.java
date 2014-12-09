@@ -42,6 +42,8 @@ public class ZkBasedConfiguration implements Configuration {
 	
 	private Configuration localConfiguration;
 	
+	private boolean inited; 
+	
 	@Override
 	public void set(String key, String value) {
 		localConfiguration.set(key, value);
@@ -106,22 +108,28 @@ public class ZkBasedConfiguration implements Configuration {
 
 	@Override
 	public void init(Properties properties) throws Exception {
-		if (PlaceholderUtils.isPlaceholderProperty(app)) {
-			app = properties.getProperty(PlaceholderUtils.trimPlaceholder(app));
+		synchronized (this) {
+			if (inited) {
+				logger.warn("ZkBasedConfiguration has been inited, just return");
+				return;
+			}
+			if (PlaceholderUtils.isPlaceholderProperty(app)) {
+				app = properties.getProperty(PlaceholderUtils.trimPlaceholder(app));
+			}
+			if (PlaceholderUtils.isPlaceholderProperty(zkServerPort)) {
+				zkServerPort = properties.getProperty(PlaceholderUtils.trimPlaceholder(zkServerPort));
+			}
+			
+			Assert.notNull(app);
+			Assert.notNull(zkServerPort);
+			Assert.notNull(localConfiguration);
+			localConfiguration.init(properties);
+			
+			appNode = app.startsWith(Constants.SLASH) ? (TOP_NODE + app) : TOP_NODE + Constants.SLASH + app;
+			methodProcessor = new ZkConfigAwaredMethodProcessor();
+			
+			initZk();
 		}
-		if (PlaceholderUtils.isPlaceholderProperty(zkServerPort)) {
-			zkServerPort = properties.getProperty(PlaceholderUtils.trimPlaceholder(zkServerPort));
-		}
-		
-		Assert.notNull(app);
-		Assert.notNull(zkServerPort);
-		Assert.notNull(localConfiguration);
-		localConfiguration.init(properties);
-		
-		appNode = app.startsWith(Constants.SLASH) ? (TOP_NODE + app) : TOP_NODE + Constants.SLASH + app;
-		methodProcessor = new ZkConfigAwaredMethodProcessor();
-		
-		initZk();
 	}
 
 	private void initZk() throws IOException, InterruptedException, KeeperException {
@@ -151,6 +159,8 @@ public class ZkBasedConfiguration implements Configuration {
 		}
 		valueChangedWatcher = new ZkValueChangedWatcher(zk, methodProcessor, localConfiguration);
 		defaultWatcher.init(methodProcessor, appNode, zk, valueChangedWatcher, localConfiguration);
+		
+		inited = true;
 	}
 
 }
