@@ -16,7 +16,10 @@ public class PlaceholderUtils {
 	public static String trimPlaceholder(String property) {
 		int index = property.indexOf(PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_PREFIX);
 		property = property.substring(index + PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_PREFIX.length());
-		index = property.lastIndexOf(PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_SUFFIX);
+		index = property.indexOf(PropertyPlaceholderConfigurer.DEFAULT_VALUE_SEPARATOR);
+		if (index == -1) { 
+			index = property.lastIndexOf(PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_SUFFIX);
+		}
 		return property.substring(0, index);
 	}
 
