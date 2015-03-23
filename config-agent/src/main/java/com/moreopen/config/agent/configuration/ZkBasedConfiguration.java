@@ -65,7 +65,9 @@ public class ZkBasedConfiguration implements Configuration {
 			//fetch local value
 			value = localConfiguration.get(key);
 		}
-		
+		if (logger.isInfoEnabled()) {
+			logger.info(String.format("get data result, key [%s] -- value [%s]", key, value));
+		}
 		return value;
 	}
 	
