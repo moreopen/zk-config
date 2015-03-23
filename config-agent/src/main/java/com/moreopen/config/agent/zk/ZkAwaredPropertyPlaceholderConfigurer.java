@@ -8,6 +8,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.ConstructorArgumentValues.ValueHolder;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.config.TypedStringValue;
 
@@ -51,6 +52,18 @@ public class ZkAwaredPropertyPlaceholderConfigurer extends PropertyPlaceholderCo
 					}
 				}
 			}
+			
+			//unsupport indexed constructor-arguments
+			List<ValueHolder> genericArgumentValues = beanDefinition.getConstructorArgumentValues().getGenericArgumentValues();
+			for (ValueHolder valueHolder : genericArgumentValues) {
+				if (TypedStringValue.class.isInstance(valueHolder.getValue())) {
+					String value = ((TypedStringValue) valueHolder.getValue()).getValue();
+					if (PlaceholderUtils.isPlaceholderProperty(value)) {
+						PropertyPlaceholderMethodWrappers.add(beanName, beanDefinition, valueHolder.getName(), PlaceholderUtils.trimPlaceholder(value));
+					}
+				}
+			}
+			
 		}
 		super.processProperties(beanFactoryToProcess, props);
 	}
