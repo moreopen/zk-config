@@ -57,11 +57,13 @@ public class ZkConfigAwaredMethodProcessor {
 					method.invoke(bean, Double.parseDouble(value));
 				} else if (parameterType == long.class || parameterType == Long.class) {
 					method.invoke(bean, Long.parseLong(value));
+				} else if (parameterType == boolean.class || parameterType == Boolean.class) {
+					method.invoke(bean, Boolean.parseBoolean(value));
 				} else {
 					method.invoke(bean, value);
 				}
 			} catch (Exception e) {
-				logger.error(String.format("[%s] invoked method [%s] failed, arg [%s]", bean, method, value));
+				logger.error(String.format("[%s] invoked method [%s] failed, arg [%s]", bean, method, value), e);
 				return false;
 			}
 			if (logger.isInfoEnabled()) {
