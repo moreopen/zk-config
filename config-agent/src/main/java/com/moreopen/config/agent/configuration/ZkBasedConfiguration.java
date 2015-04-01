@@ -107,7 +107,12 @@ public class ZkBasedConfiguration implements Configuration {
 	//XXX merge zk config with local config
 	@Override
 	public Properties loadAll() {
-		Properties properties = localConfiguration.loadAll();
+		Properties properties = new Properties();
+		Properties localProperties = localConfiguration.loadAll();
+		for (Object key : localProperties.keySet()) {
+			properties.put(key, localProperties.get(key));
+		}
+		
 		List<String> children = null;
 		try {
 			children = zkClient.getZk().getChildren(appNode, false);
