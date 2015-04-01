@@ -40,7 +40,8 @@ public class ZkAwaredBeanPostProcessor implements BeanPostProcessor, Initializin
 		if (PropertyPlaceholderMethodWrappers.contains(beanName)) {
 			MethodWrapper[] methods = PropertyPlaceholderMethodWrappers.get(beanName);
 			for (MethodWrapper wrapper : methods) {
-				processMethod(bean, wrapper.getMethod(), wrapper.getPropertyKey());
+				//need not invoke method again
+				processMethod0(bean, wrapper.getMethod(), wrapper.getPropertyKey());
 			}
 		}
 		return bean;
@@ -52,6 +53,12 @@ public class ZkAwaredBeanPostProcessor implements BeanPostProcessor, Initializin
 		if (zkBasedConfiguration.getMethodProcessor().process(key, value)) {
 			zkBasedConfiguration.set(key, value);
 		}
+	}
+	
+	private void processMethod0(Object bean, Method method, String key) {
+		zkBasedConfiguration.getMethodProcessor().put(key, method, bean);
+		String value = zkBasedConfiguration.get(key);
+		zkBasedConfiguration.set(key, value);
 	}
 
 	@Override

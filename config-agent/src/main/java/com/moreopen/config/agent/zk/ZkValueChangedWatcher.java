@@ -4,13 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moreopen.config.agent.Constants;
 import com.moreopen.config.agent.annotation.ZkConfig;
 import com.moreopen.config.agent.configuration.Configuration;
+import com.moreopen.config.agent.configuration.ZkBasedConfiguration.ZkClient;
 
 /**
  * Watcher for configured node
@@ -20,17 +20,17 @@ public class ZkValueChangedWatcher implements Watcher {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private ZooKeeper zk;
+	private ZkClient zkClient;
 
 	private ZkConfigAwaredMethodProcessor methodHolder;
 	
 	private Configuration localFileConfigurator;
 	
 	public ZkValueChangedWatcher(
-			ZooKeeper zk, 
+			ZkClient zkClient, 
 			ZkConfigAwaredMethodProcessor methodHolder, 
 			Configuration localFileConfigurator) {
-		this.zk = zk;
+		this.zkClient = zkClient;
 		this.methodHolder = methodHolder;
 		this.localFileConfigurator = localFileConfigurator;
 	}
@@ -47,7 +47,7 @@ public class ZkValueChangedWatcher implements Watcher {
 		String keyNode = event.getPath();
 		String value = StringUtils.EMPTY;
 		try {
-			value = new String(zk.getData(keyNode, this, null), Constants.UTF8);
+			value = new String(zkClient.getZk().getData(keyNode, this, null), Constants.UTF8);
 		} catch (KeeperException ke) {
 			logger.error(String.format("get data failed, keyNode [%s], error [%s]", event.getPath()), ke.getMessage());
 			return;

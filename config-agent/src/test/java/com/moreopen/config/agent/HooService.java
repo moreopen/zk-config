@@ -10,6 +10,10 @@ public class HooService implements InitializingBean {
 	
 	private int size;
 	
+	private boolean enabled;
+	
+	private String name;
+	
 	public int getNum() {
 		return num;
 	}
@@ -41,6 +45,22 @@ public class HooService implements InitializingBean {
 
 	public int getSize() {
 		return size;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

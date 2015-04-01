@@ -20,16 +20,20 @@ public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 	@Resource
 	private HooService hooService;
 	
+	@Resource
+	private JooService jooService;
+	
 	@Before
 	public void before() {
 		Assert.notNull(fooService);
 		Assert.notNull(gooService);
 		Assert.notNull(hooService);
+		Assert.notNull(jooService);
 	}
 	
 	@Test
 	public void test() throws InterruptedException {
-		while (true) {
+		for (int i = 0; i < 100; i++) {
 			System.out.println("foo ***********************");
 			System.out.println("name : " + fooService.getName());
 			System.out.println("times : " + fooService.getTimes());
@@ -47,8 +51,15 @@ public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 			System.out.println("url : " + hooService.getUrl());
 			System.out.println("num : " + hooService.getNum());
 			System.out.println("size : " + hooService.getSize());
+			System.out.println("hoo.enable : " + hooService.isEnabled());
+			System.out.println("hoo.name : " + hooService.getName());
 			System.out.println("=================================================");
-			Thread.sleep(30000);
+			
+			System.out.println("joo ***********************");
+			System.out.println("joo.type : " + jooService.getType());
+			
+			Thread.sleep(3000);
 		}
+		while(true);
 	}
 }

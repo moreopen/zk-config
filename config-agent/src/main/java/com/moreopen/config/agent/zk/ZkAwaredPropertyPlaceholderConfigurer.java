@@ -3,6 +3,7 @@ package com.moreopen.config.agent.zk;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
@@ -49,6 +50,12 @@ public class ZkAwaredPropertyPlaceholderConfigurer extends PropertyPlaceholderCo
 					String value = ((TypedStringValue) propertyValue.getValue()).getValue();
 					if (PlaceholderUtils.isPlaceholderProperty(value)) {
 						PropertyPlaceholderMethodWrappers.add(beanName, beanDefinition, propertyValue.getName(), PlaceholderUtils.trimPlaceholder(value));
+					} else {
+						//XXX below properties do not support dynamic update
+						Set<String> placeholderProperties = PlaceholderUtils.resolvePlaceholderProperties(value);
+						for (String property : placeholderProperties) {
+							zkBasedConfiguration.set(property, props.getProperty(property));
+						}
 					}
 				}
 			}
@@ -60,6 +67,12 @@ public class ZkAwaredPropertyPlaceholderConfigurer extends PropertyPlaceholderCo
 					String value = ((TypedStringValue) valueHolder.getValue()).getValue();
 					if (PlaceholderUtils.isPlaceholderProperty(value)) {
 						PropertyPlaceholderMethodWrappers.add(beanName, beanDefinition, valueHolder.getName(), PlaceholderUtils.trimPlaceholder(value));
+					} else {
+						//XXX below properties do not support dynamic update
+						Set<String> placeholderProperties = PlaceholderUtils.resolvePlaceholderProperties(value);
+						for (String property : placeholderProperties) {
+							zkBasedConfiguration.set(property, props.getProperty(property));
+						}
 					}
 				}
 			}
