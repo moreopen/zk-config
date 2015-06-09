@@ -1,1 +1,5 @@
 1. 配置文件中占位符定义的配置项从 zookeeper 获取 done DONE
+2. 处理异常：
+2015-06-08 11:36:53,897 ERROR spi.ZKDelegate - get children failed, pNode [/moconfig]
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /moconfig
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:127)
