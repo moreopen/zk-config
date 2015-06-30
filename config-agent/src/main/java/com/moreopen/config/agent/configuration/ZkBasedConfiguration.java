@@ -8,11 +8,13 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.NoNodeException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
@@ -89,10 +91,21 @@ public class ZkBasedConfiguration implements Configuration {
 			if (logger.isInfoEnabled()) {
 				logger.info(String.format("set valueChangedWatcher to key [%s]", key));
 			}
-		} catch (KeeperException ke) { 
+		} catch (KeeperException ke) {
 			logger.warn(String.format("get data failed, node [%s], error [%s], fetch value from local configurator", keyNode, ke.getMessage()));
 			//fetch local value
 			value = localConfiguration.get(key);
+			//XXX set value to zk, add watcher to the node
+			if (value != null) {
+				try {
+					zkClient.getZk().create(keyNode, value.getBytes(Constants.UTF8), Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+					//set value changed watcher on node
+					zkClient.getZk().getData(keyNode, valueChangedWatcher, null);
+					logger.warn(String.format("set zk node [%s] with local config value [%s] succeed", keyNode, value));
+				} catch (Exception e) {
+					logger.error(String.format("set zk node [%s] with local config value [%s] error", keyNode, value), e);
+				}
+			} 
 		} catch (Exception e) {
 			logger.error(String.format("get data failed, node [%s], fetch value from local configurator", keyNode), e);
 			//fetch local value
@@ -186,9 +199,18 @@ public class ZkBasedConfiguration implements Configuration {
 				} else {
 					//if connected, do check topNode and appNode exist or not 
 					Stat stat = zk.exists(TOP_NODE, false);
-					Assert.notNull(stat, String.format("top node [%s] does not exist, plz init in zk [%s]", TOP_NODE, zk));
+//					Assert.notNull(stat, String.format("top node [%s] does not exist, plz init in zk [%s]", TOP_NODE, zk));
+					if (stat == null) {
+						//create if top node is null
+						zk.create(TOP_NODE, null, Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+						logger.warn(String.format("top node [%s] does not exist, created", TOP_NODE));
+					}
 					stat = zk.exists(appNode, false);
-					Assert.notNull(stat, String.format("app node [%s] does not exist, plz init in zk [%s]", appNode, zk));
+//					Assert.notNull(stat, String.format("app node [%s] does not exist, plz init in zk [%s]", appNode, zk));
+					if (stat == null) {
+						zk.create(appNode, null, Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+						logger.warn(String.format("app node [%s] does not exist, created", appNode));
+					}
 				}
 			}
 		}

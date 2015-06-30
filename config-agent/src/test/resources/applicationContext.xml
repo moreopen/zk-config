@@ -7,9 +7,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc">
 	
-	<bean id="fooService" class="com.moreopen.config.agent.FooService"/>
+	<!--bean id="fooService" class="com.moreopen.config.agent.FooService"/>
 	
-	<bean id="gooService" class="com.moreopen.config.agent.GooService"/>
+	<bean id="gooService" class="com.moreopen.config.agent.GooService"/-->
 	
 	<bean id="hooService" class="com.moreopen.config.agent.HooService">
 	    <property name="name" value="hooName.${hoo.name.prefix}----${hoo.name.suffix}"/>
@@ -19,10 +19,9 @@
 		<property name="enabled" value="${hoo.enabled}"/>
 	</bean>
 	
-	<bean id="jooService" class="com.moreopen.config.agent.JooService">
-		<!--constructor-arg index="0" value="${joo.type}"/-->
+	<!--bean id="jooService" class="com.moreopen.config.agent.JooService">
 		<constructor-arg name="type" value="${joo.type}"/>
-	</bean>
+	</bean-->
 	
 	<!-- ====================================================================================================================================== -->
 	<bean id="propertyConfigurer" class="com.moreopen.config.agent.zk.ZkAwaredPropertyPlaceholderConfigurer">
