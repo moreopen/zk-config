@@ -1,11 +1,14 @@
 package com.moreopen.config.center.spi;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.KeeperException.SessionExpiredException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs.Ids;
@@ -34,7 +37,16 @@ public class ZKDelegate implements InitializingBean {
 		try {
 			List<String> children = zk.getChildren(pNode, false);
 			return children;
-		} catch (Exception e) {
+		} catch (SessionExpiredException see) {
+			logger.error(String.format("get children failed, pNode [%s]", pNode), see);
+			try {
+				connectZk();
+			} catch (Exception e) {
+				logger.error("connect failed", e);
+			}
+			return Collections.EMPTY_LIST;
+		}
+		catch (Exception e) {
 			logger.error(String.format("get children failed, pNode [%s]", pNode), e);
 			return Collections.EMPTY_LIST;
 		} 
@@ -44,7 +56,7 @@ public class ZKDelegate implements InitializingBean {
 		try {
 			return new String(zk.getData(node, false, null), Constants.UTF8);
 		} catch (Exception e) {
-			logger.error("get data fialed", e);
+			logger.error(String.format("get data failed, node [%s]", node), e);
 			return StringUtils.EMPTY;
 		}
 	}
@@ -56,6 +68,10 @@ public class ZKDelegate implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		//async connect
+		connectZk();
+	}
+
+	private void connectZk() throws IOException, InterruptedException, KeeperException {
 		zk = new ZooKeeper(zkServerPort, sessionTimeout, new Watcher() {
 			
 			@Override

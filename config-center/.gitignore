@@ -3,3 +3,4 @@ logs/
 .settings
 .classpath
 .project
+profile/test/*.properties
