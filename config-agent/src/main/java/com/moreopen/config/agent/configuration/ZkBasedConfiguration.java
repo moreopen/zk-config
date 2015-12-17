@@ -68,7 +68,7 @@ public class ZkBasedConfiguration implements Configuration {
 			appNode = app.startsWith(Constants.SLASH) ? (TOP_NODE + app) : TOP_NODE + Constants.SLASH + app;
 			methodProcessor = new ZkConfigAwaredMethodProcessor();
 			
-			zkClient = new ZkClient();			
+			zkClient = new ZkClient();
 			zkClient.connect();
 			valueChangedWatcher = new ZkValueChangedWatcher(zkClient, methodProcessor, localConfiguration);
 			
@@ -253,7 +253,16 @@ public class ZkBasedConfiguration implements Configuration {
 			} else if (event.getState() == KeeperState.Disconnected) {
 				setConnected(false);
 				if (logger.isInfoEnabled()) {
-					logger.info("===============disconnected from zk server");
+					logger.info("===============disconnected from zk server and  reset zk client");
+				}
+				//XXX zk reset, force to reconnect when zk disconnected
+				try {
+					zk.close();
+					zk = null;
+					zkClient = new ZkClient();
+					zkClient.connect();
+				} catch (Exception e) {
+					logger.error("zk reset and re-connect failed", e);
 				}
 			}
 		}

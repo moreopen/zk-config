@@ -34,7 +34,7 @@ public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 	
 	@Test
 	public void test() throws InterruptedException {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000; i++) {
 //			System.out.println("foo ***********************");
 //			System.out.println("name : " + fooService.getName());
 //			System.out.println("times : " + fooService.getTimes());
