@@ -4,9 +4,8 @@
 	<parent>
 		<groupId>com.moreopen.config</groupId>
 		<artifactId>config-parent</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.4</version>
 	</parent>
 	<artifactId>config-agent</artifactId>
-	<version>0.0.3</version>
 	
 </project>
