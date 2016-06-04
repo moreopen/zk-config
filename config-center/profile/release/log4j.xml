@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- ===================================================================== -->
+	<!-- 以下是appender的定义 -->
+	<!-- ===================================================================== -->
+	<appender name="PROJECT-CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="logs/project.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="ZOOKEEPER" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="logs/zk.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p %c{2} - %m%n" />
+		</layout>
+	</appender>
+	
+
+	<logger name="com.moreopen.config" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="PROJECT" />
+		<appender-ref ref="PROJECT-CONSOLE" />
+	</logger>
+	
+	<logger name="org.apache.zookeeper" additivity="false">
+		<level value="warn"/>
+		<appender-ref ref="ZOOKEEPER"/>
+	</logger>
+	
+<!--  -->
+
+	<!-- ===================================================================== -->
+	<!-- Root logger的定义 -->
+	<!-- ===================================================================== -->
+	<root>
+		<level value="info" />
+		<appender-ref ref="PROJECT" />
+		<!--appender-ref ref="PROJECT-CONSOLE" /-->
+	</root>
+</log4j:configuration>

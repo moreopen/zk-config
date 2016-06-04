@@ -288,6 +288,14 @@
 				<assembly-config>profile/test/assembly.xml</assembly-config>
 			</properties>
 		</profile>
+		
+		<profile>
+			<id>release</id>
+			<properties>
+				<assembly-config>profile/release/assembly.xml</assembly-config>
+			</properties>
+		</profile>
+		
 	</profiles>
 	
 
