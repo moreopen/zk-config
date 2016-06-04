@@ -54,7 +54,14 @@ public class ZKDelegate implements InitializingBean {
 	
 	public String getValue(String node) {
 		try {
-			return new String(zk.getData(node, false, null), Constants.UTF8);
+			byte[] data = zk.getData(node, false, null);
+			if (data == null) {
+				if (logger.isInfoEnabled()) {
+					logger.info(String.format("data is null, node [%s]", node));
+				}
+				return StringUtils.EMPTY;
+			}
+			return new String(data, Constants.UTF8);
 		} catch (Exception e) {
 			logger.error(String.format("get data failed, node [%s]", node), e);
 			return StringUtils.EMPTY;
