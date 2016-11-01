@@ -1,7 +1,3 @@
-/*
- * Copyright 2011 y.sdo.com, Inc. All rights reserved.
- * y.sdo.com PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.moreopen.config.center;
 
 import java.util.Properties;
