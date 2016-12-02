@@ -29,6 +29,8 @@ public class LocalFileConfiguration implements Configuration {
 	
 	private String filePath;
 	
+	private File file;
+	
 	private Properties props = new Properties();
 	
 	private boolean needFlush;
@@ -39,7 +41,7 @@ public class LocalFileConfiguration implements Configuration {
 			filePath = props.getProperty(PlaceholderUtils.trimPlaceholder(filePath));
 		}
 		Assert.isTrue(StringUtils.isNotBlank(filePath), "filePath is required");
-		File file = new File(filePath);
+		file = new File(filePath);
 		if (!file.exists()) {
 			//create file
 			if (!file.createNewFile()) {
@@ -102,19 +104,22 @@ public class LocalFileConfiguration implements Configuration {
 		@Override
 		public void run() {
 			if (needFlush) {
-				OutputStream out = null;
-				try {
-					out = new FileOutputStream(file);
-					props.store(out, null);
-					needFlush = false;
-				} catch (Exception e) {
-					logger.error(String.format("flush to file [%s] failed", filePath), e);
-				} finally {
-					IOUtils.closeQuietly(out);
-				}
+				flush(file);
+				needFlush = false;
 			}
 		}
-		
+	}
+	
+	private void flush(File file) {
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(file);
+			props.store(out, null);
+		} catch (Exception e) {
+			logger.error(String.format("flush to file [%s] failed", filePath), e);
+		} finally {
+			IOUtils.closeQuietly(out);
+		}
 	}
 
 	public void setFilePath(String filePath) {
@@ -124,8 +129,10 @@ public class LocalFileConfiguration implements Configuration {
 	//重新设置全量的配置项进 props, flush 时可以全量备份到文件
 	@Override
 	public void reset(Properties properties) {
+		System.out.print("============reset properties : " + properties);
 		props.putAll(properties);
-		needFlush = true;
+		//XXX 直接 flush
+		flush(file);
 	}
 
 }
