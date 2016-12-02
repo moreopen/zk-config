@@ -140,6 +140,7 @@ public class ZkBasedConfiguration implements Configuration {
 				properties.put(child, get(child));
 			}
 		}
+		localConfiguration.reset(properties);
 		return properties;
 	}
 	
@@ -271,6 +272,11 @@ public class ZkBasedConfiguration implements Configuration {
 			return this.zk;
 		}
 		
+	}
+
+	@Override
+	public void reset(Properties properties) {
+		localConfiguration.reset(properties);
 	}
 	
 

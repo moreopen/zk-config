@@ -50,6 +50,7 @@ public class LocalFileConfiguration implements Configuration {
 		if (!file.canWrite()) {
 			throw new RuntimeException(String.format("can't write file [%s], plz check", filePath));
 		}
+		//初始化时 load 文件内容到 props
 		load(file);
 		Executors.newScheduledThreadPool(
 				1, new CustomizableThreadFactory("LocalFileConfigurator-flush-")
@@ -118,6 +119,13 @@ public class LocalFileConfiguration implements Configuration {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	//重新设置全量的配置项进 props, flush 时可以全量备份到文件
+	@Override
+	public void reset(Properties properties) {
+		props.putAll(properties);
+		needFlush = true;
 	}
 
 }
