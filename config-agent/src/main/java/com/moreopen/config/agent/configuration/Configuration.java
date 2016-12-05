@@ -14,5 +14,7 @@ public interface Configuration {
 	void init(Properties properties) throws Exception;
 	
 	Properties loadAll();
+	
+	void reset(Properties properties);
 
 }

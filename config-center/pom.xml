@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.moreopen.config</groupId>
 		<artifactId>config-parent</artifactId>
-		<version>0.0.4</version>
+		<version>0.0.6</version>
 	</parent>
 	<artifactId>config-center</artifactId>
 	<packaging>war</packaging>
