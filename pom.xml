@@ -296,6 +296,13 @@
 			</properties>
 		</profile>
 		
+		<profile>
+			<id>zmchat-release</id>
+			<properties>
+				<assembly-config>profile/zmchat-release/assembly.xml</assembly-config>
+			</properties>
+		</profile>
+		
 	</profiles>
 	
 
