@@ -11,11 +11,11 @@ public class ZkConfigMoveTest {
 
 	public static void main(String[] args) throws Exception {
 		// 旧zk配置
-		ZooKeeper oldzk = new ZooKeeper("10.136.20.206:2181", 60000, null);
+		ZooKeeper oldzk = new ZooKeeper("10.135.20.3:2181", 60000, null);
 		// 新zk配置
-		ZooKeeper newzk = new ZooKeeper("10.135.20.3:2181", 60000, null);
+		ZooKeeper newzk = new ZooKeeper("10.136.24.101:2181", 60000, null);
 		// 迁移的节点
-		String node = "/moconfig/dispatch-rs";
+		String node = "/moconfig";
 		List<String> children = oldzk.getChildren(node, false);
 		move(oldzk, newzk, children, node);
 		oldzk.close();

@@ -303,6 +303,13 @@
 			</properties>
 		</profile>
 		
+		<profile>
+			<id>perf</id>
+			<properties>
+				<assembly-config>profile/perf/assembly.xml</assembly-config>
+			</properties>
+		</profile>
+		
 	</profiles>
 	
 
