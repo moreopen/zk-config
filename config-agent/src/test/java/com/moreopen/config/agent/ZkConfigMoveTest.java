@@ -13,7 +13,7 @@ public class ZkConfigMoveTest {
 		// 旧zk配置
 		ZooKeeper oldzk = new ZooKeeper("10.135.20.3:2181", 60000, null);
 		// 新zk配置
-		ZooKeeper newzk = new ZooKeeper("10.136.24.101:2181", 60000, null);
+		ZooKeeper newzk = new ZooKeeper("10.135.20.13:2181", 60000, null);
 		// 迁移的节点
 		String node = "/moconfig";
 		List<String> children = oldzk.getChildren(node, false);

@@ -310,6 +310,12 @@
 			</properties>
 		</profile>
 		
+		<profile>
+			<id>palmchat-release</id>
+			<properties>
+				<assembly-config>profile/palmchat-release/assembly.xml</assembly-config>
+			</properties>
+		</profile>
 	</profiles>
 	
 
