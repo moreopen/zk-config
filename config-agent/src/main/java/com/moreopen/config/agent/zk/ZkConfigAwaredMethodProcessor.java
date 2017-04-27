@@ -32,7 +32,14 @@ public class ZkConfigAwaredMethodProcessor {
 				}
 			}
 		}
-		keyValues.add(new DefaultKeyValue(method, bean));
+		synchronized (method) {
+			for (KeyValue keyValue : keyValues) {
+				if (keyValue.getKey() == method) {
+					return;
+				}
+			}
+			keyValues.add(new DefaultKeyValue(method, bean));			
+		}
 	}
 
 	public boolean process(String key, String value) {

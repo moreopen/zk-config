@@ -7,15 +7,15 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc">
 	
-	<!--bean id="fooService" class="com.moreopen.config.agent.FooService"/>
+	<bean id="fooService" class="com.moreopen.config.agent.FooService"/>
 	
-	<bean id="gooService" class="com.moreopen.config.agent.GooService"/-->
+	<!--bean id="gooService" class="com.moreopen.config.agent.GooService"/-->
 	
 	<bean id="hooService" class="com.moreopen.config.agent.HooService">
 	    <property name="name" value="hooName.${hoo.name.prefix}----${hoo.name.suffix}"/>
 		<property name="url" value="${hoo.url}"/>
 		<property name="num" value="${hoo.num}"/>
-		<property name="size" value="${hoo.size:9}"/>
+		<property name="size" value="${hoo.size}"/>
 		<property name="enabled" value="${hoo.enabled}"/>
 	</bean>
 	
@@ -46,9 +46,10 @@
 	</bean>
 	
 	<bean id="zkBasedConfiguration" class="com.moreopen.config.agent.configuration.ZkBasedConfiguration">
-		<property name="zkServerPort" value="${zk.serverPort}"/>
+		<!-- <property name="zkServerPort" value="${zk.serverPort}"/> -->
 		<property name="app" value="${zk.appName}"/>
 		<property name="localConfiguration" ref="localFileConfiguration"/>
+		<property name="globalApp" value="${zk.globalApp}"/>
 	</bean>
 	
 	<bean id="localFileConfiguration" class="com.moreopen.config.agent.configuration.LocalFileConfiguration">
