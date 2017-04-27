@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.moreopen.config</groupId>
 	<artifactId>config-parent</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>config-agent</module>
@@ -303,6 +303,19 @@
 			</properties>
 		</profile>
 		
+		<profile>
+			<id>perf</id>
+			<properties>
+				<assembly-config>profile/perf/assembly.xml</assembly-config>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>palmchat-release</id>
+			<properties>
+				<assembly-config>profile/palmchat-release/assembly.xml</assembly-config>
+			</properties>
+		</profile>
 	</profiles>
 	
 

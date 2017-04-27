@@ -11,6 +11,8 @@ public class FooService {
 	private long timeInMs;
 	
 	private double averageLevel;
+	
+	private int size;
 
 	@ZkConfig(key="foo.name")
 	public void setName(String name) {
@@ -46,6 +48,15 @@ public class FooService {
 
 	public double getAverageLevel() {
 		return averageLevel;
+	}
+
+	@ZkConfig(key = "hoo.size")
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+	public int getSize() {
+		return this.size;
 	}
 
 }

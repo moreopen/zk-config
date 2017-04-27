@@ -11,8 +11,8 @@ import org.springframework.util.Assert;
 @ContextConfiguration(locations="classpath:applicationContext.xml")
 public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 	
-//	@Resource
-//	private FooService fooService;
+	@Resource
+	private FooService fooService;
 //	
 //	@Resource
 //	private GooService gooService;
@@ -34,7 +34,7 @@ public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 	
 	@Test
 	public void test() throws InterruptedException {
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 200; i++) {
 //			System.out.println("foo ***********************");
 //			System.out.println("name : " + fooService.getName());
 //			System.out.println("times : " + fooService.getTimes());
@@ -55,6 +55,7 @@ public class ZkConfigAgentTest extends AbstractJUnit4SpringContextTests {
 			System.out.println("hoo.enable : " + hooService.isEnabled());
 			System.out.println("hoo.name : " + hooService.getName());
 			System.out.println("=================================================");
+			System.out.println("foo.size : " + fooService.getSize());
 			
 //			System.out.println("joo ***********************");
 //			System.out.println("joo.type : " + jooService.getType());
